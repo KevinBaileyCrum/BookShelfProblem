@@ -13,7 +13,6 @@ int main(int argc, char** argv){
     cout << "File selected " << argv[1] << endl;
     
     for (int i=0; i<argc; ++i){
-        if( argv[i] == "\n") { cout << "nl found at " << argv[i] << endl; }
         cout << argv[i] << "\n";
     }
     
@@ -23,6 +22,7 @@ int main(int argc, char** argv){
     if( inFile ){ // same as: (inFile.good()) basically not EOF
         getline( inFile, line );
         cout << line << endl;
+        cout << "try line[0] " << line[0] << line[1] << endl;
     }
     return 0;
 }
