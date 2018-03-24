@@ -6,17 +6,16 @@
 #include <algorithm>
 using namespace std;
 
-int calculateNumShelves( vector<int> &shelves, int bookSum ){
+int calculateNumShelves( vector<int> &shelves, int bookSum, int count){
     int accum = 0;
-    int count = 0;
     for( int i=shelves.size() -1; i>=0; --i ){
         if( accum >= bookSum ) break;
         accum += shelves[i];
         ++count;
     }
     cout<<"accum is "<<accum<<endl;
-    cout<<"count is "<<count<<endl;
-    return accum;
+    if( accum < bookSum ){ count = -1;}
+    return count;
 }
 
 int main(int argc, char** argv){
@@ -68,7 +67,9 @@ int main(int argc, char** argv){
             cout << "books[" << i << "]" << books[i] << endl;
         }
          
-        calculateNumShelves( shelves, bookSum );      
+        int count = calculateNumShelves( shelves, bookSum, 0 );      
+        if( count == -1 ){ cout << "impossible" << endl; return 0;}
+        cout<<"minimum shelves needed: " << count << endl;
     }
     return 0;
 }
