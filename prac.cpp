@@ -1,4 +1,5 @@
 #include <iostream>
+#include <stdlib.h>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -13,17 +14,16 @@ int calculateNumShelves( vector<int> &shelves, int bookSum, int count){
         accum += shelves[i];
         ++count;
     }
-    cout<<"accum is "<<accum<<endl;
     if( accum < bookSum ){ count = -1;}
     return count;
 }
 
 int main(int argc, char** argv){
-
-    cout << "File selected " << argv[1] << endl;
     
-    for (int i=0; i<argc; ++i){
-        cout << argv[i] << "\n";
+    // Check cmndln arg for correct length
+    if( argc<2 ){ 
+        cout<<"usage: /.prac filename"<<endl; 
+        exit (EXIT_FAILURE);
     }
     
     // Body to open file and read from it
@@ -32,8 +32,9 @@ int main(int argc, char** argv){
     if( inFile ){  
         
         // get first line of bookshelves
+        // sort vector of bookshelves 
         getline( inFile, line );
-        cout << line << endl;
+        // cout << line << endl; // uncomment for selves
         istringstream iss(line);
         vector<int> shelves;    
         int s;
@@ -41,12 +42,6 @@ int main(int argc, char** argv){
             shelves.push_back(s);
         }
         sort( shelves.begin(), shelves.end() );
-        int totalSpace = 0;
-        for( int i=0; i<shelves.size(); ++i ){
-            cout << "shelves["<<i<<"] " << shelves[i] << ' ';
-            totalSpace += shelves[i];
-        }
-        cout << "\n" << "sum " << totalSpace << endl;
        
 
         // get all following lines of books titles and size
@@ -56,17 +51,14 @@ int main(int argc, char** argv){
         int b;
         int bookSum =0; 
         while( getline( inFile, line ) ){
-            cout << line << endl;
+            // cout << line << endl; //uncomment to print books
             istringstream iss(line);
             iss>>b;
             bookSum += b;
             books.push_back(b);
         }
-        cout<<"bookSum = "<< bookSum << endl;
-        for( int i=0; i<books.size(); ++i ){
-            cout << "books[" << i << "]" << books[i] << endl;
-        }
-         
+        
+        // call calculateNumShelves() and return count for num shelves
         int count = calculateNumShelves( shelves, bookSum, 0 );      
         if( count == -1 ){ cout << "impossible" << endl; return 0;}
         cout<<"minimum shelves needed: " << count << endl;
